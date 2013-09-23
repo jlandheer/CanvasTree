@@ -1,76 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset=utf-8 />
-<title>JS Bin</title>
+   <meta charset="utf-8" />
+   <title>JS Bin</title>
 </head>
 <style>
-   canvas { border: 1px solid black; }
+   canvas {
+      border: 1px solid black;
+   }
 </style>
-<script type="text/javascript">
-var canvas=document.getElementById('canv');
-var ctx = canvas.getContext('2d');
-
-ctx.translate(250, 500);
-var tree=new Branch(100, 0);
-//tree.render(10000);
-var gen=0;
-
-setInterval(loop, 25);
-
-function loop(){
-  gen+=0.6;
-  ctx.clearRect(0,0,500,500);
-  ctx.save();
-  tree.render(gen);
-  ctx.restore();
-}
-
-function Branch(l, a){
-  var branches=this.branches=[];
-  this.len=l;
-  this.angle=a;
-  this.color = "rgb("+128+","+ Math.floor(255 * (this.len / 100)) +","+Math.floor(128 * this.len / 100)+")";
-  //console.log(this.color);
-  
-  if(this.len > 20) {
-    branches.push(new Branch(this.len * random(0.6, 0.9), random(10,30)));
-    branches.push(new Branch(this.len * random(0.6, 0.9), -random(10,30)));
-    branches.push(new Branch(this.len * random(0.6, 0.9), -random(-70,70)));
-  } 
-  
-  this.render= function(gen){
-    var c=this.color;
-    var lengthThisBranch = this.len * (gen > 1 ? 1 : gen);
-    ctx.save();
-    ctx.strokeStyle = c;
-    ctx.beginPath();
-    ctx.rotate(this.angle * Math.PI / 180);
-    ctx.lineWidth = lengthThisBranch / 10;
-    ctx.moveTo(0,0);
-    ctx.lineTo(0, -lengthThisBranch);
-    ctx.stroke();
-    ctx.translate(0, -lengthThisBranch);
-    if(gen > 1){
-      for(var i=0;i<this.branches.length;i++) {
-        this.branches[i].render(gen - 1);
-      }
-    }
-    ctx.restore();
-  };
-}
-
-function random (min, max){
-  if(min>max){
-    var t=min;
-    min=max;
-    max=t;
-  }
-  return Math.random() * (max-min) + min;
-}
-
-</script>
 <body>
-  <canvas id="canv" width="500px" height="500px"></canvas>
+   <canvas id="canv" width="500px" height="500px"></canvas>
+   <script type="text/javascript">
+      var canvas = document.getElementById('canv');
+      var ctx = canvas.getContext('2d');
+
+      ctx.translate(250, 500);
+      var tree = new Branch(100, 0);
+      //tree.render(10000);
+      var gen = 0;
+
+      setInterval(loop, 25);
+
+      function loop() {
+         gen += 0.6;
+         ctx.clearRect(0, 0, 500, 500);
+         ctx.save();
+         tree.render(gen);
+         ctx.restore();
+      }
+
+      function Branch(l, a) {
+         var branches = this.branches = [];
+         this.len = l;
+         this.angle = a;
+         this.color = "rgb(" + 128 + "," + Math.floor(255 * (this.len / 100)) + "," + Math.floor(128 * this.len / 100) + ")";
+         //console.log(this.color);
+
+         if (this.len > 20) {
+            branches.push(new Branch(this.len * random(0.6, 0.9), random(10, 30)));
+            branches.push(new Branch(this.len * random(0.6, 0.9), -random(10, 30)));
+            branches.push(new Branch(this.len * random(0.6, 0.9), -random(-70, 70)));
+         }
+
+         this.render = function (gen) {
+            var c = this.color;
+            var lengthThisBranch = this.len * (gen > 1 ? 1 : gen);
+            ctx.save();
+            ctx.strokeStyle = c;
+            ctx.beginPath();
+            ctx.rotate(this.angle * Math.PI / 180);
+            ctx.lineWidth = lengthThisBranch / 10;
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, -lengthThisBranch);
+            ctx.stroke();
+            ctx.translate(0, -lengthThisBranch);
+            if (gen > 1) {
+               for (var i = 0; i < this.branches.length; i++) {
+                  this.branches[i].render(gen - 1);
+               }
+            }
+            ctx.restore();
+         };
+      }
+
+      function random(min, max) {
+         if (min > max) {
+            var t = min;
+            min = max;
+            max = t;
+         }
+         return Math.random() * (max - min) + min;
+      }
+
+   </script>
 </body>
 </html>
