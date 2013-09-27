@@ -1,87 +1,14 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
    <meta charset="utf-8" />
    <title>JS Bin</title>
+   <link href="Styles/site.css" rel="stylesheet" />
 </head>
-<style>
-   canvas {
-      border: 1px solid black;
-   }
-</style>
 <body>
    <canvas id="canv" width="500px" height="500px"></canvas>
+   <br/>
   <span id="gen"></span>
-   <script type="text/javascript">
-var canvas=document.getElementById('canv');
-var txt=document.getElementById('gen');
-var ctx = canvas.getContext('2d');
-
-ctx.translate(250, 500);
-var tree=new Branch(100, 0);
-//tree.render(10000);
-var gen=0;
-
-setInterval(loop, 25);
-
-var inc=0.6;
-
-function loop(){
-  if(gen>20 || gen <0)
-    inc=-inc;
-  
-  gen+=inc;
-  txt.innerHTML=gen;
-  ctx.clearRect(-250,0,500,-500);
-  ctx.save();
-  tree.render(gen);
-  ctx.restore();
-}
-
-function Branch(l, a){
-  var branches=this.branches=[];
-  this.len=l;
-  this.angle=a;
-  this.color = "rgb("+128+","+ Math.floor(255 * (this.len / 100)) +","+Math.floor(128 * this.len / 100)+")";
-  //console.log(this.color);
-  
-  
-  if(this.len > 20) {
-    for(var i=0;i<random(1,4);i++){
-      branches.push(new Branch(this.len * random(0.6, 0.9), -random(-50,50)));
-    }
-  } 
-  
-  this.render= function(gen){
-    var c=this.color;
-    var lengthThisBranch = this.len * (gen > 1 ? 1 : gen);
-    ctx.save();
-    ctx.strokeStyle = c;
-    ctx.beginPath();
-    ctx.rotate(this.angle * Math.PI / 180);
-    ctx.lineWidth = lengthThisBranch / 10;
-    ctx.moveTo(0,0);
-    ctx.lineTo(0, -lengthThisBranch);
-    ctx.stroke();
-    ctx.translate(0, -lengthThisBranch);
-    if(gen > 1){
-      for(var i=0;i<this.branches.length;i++) {
-        this.branches[i].render(gen - 1);
-      }
-    }
-    ctx.restore();
-  };
-}
-
-function random (min, max){
-  if(min>max){
-    var t=min;
-    min=max;
-    max=t;
-  }
-  return Math.random() * (max-min) + min;
-}
-
-   </script>
+   <script src="Scripts/canvastree.js"></script>
 </body>
 </html>
